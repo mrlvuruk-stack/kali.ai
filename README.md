@@ -18,14 +18,14 @@ graph TD
     User([User]) <--> |Interacts| WebApp[Streamlit Web UI<br>Port 8501]
     AndroidApp[Android Companion App<br>Jetpack Compose WebView] <--> |Connects via Local IP| WebApp
     
-    subgraph Python Backend (Streamlit App)
+    subgraph backend ["Python Backend (Streamlit App)"]
         WebApp <--> Agent[ReAct Agent Executor]
         WebApp <--> DB[(SQLite Memory Database)]
         
         Agent <--> Ollama[Ollama Local LLM]
         Agent <--> Tools[Agent Tools]
         
-        subgraph Tools
+        subgraph tools_sub ["Tools"]
             WinApp[Native App Launcher]
             PyInterpreter[Python Code Interpreter]
             RAG[Chroma DB / PDF Document Reader]
