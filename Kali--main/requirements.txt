@@ -1,0 +1,11 @@
+langchain
+langchain-community
+langchain-huggingface
+chromadb
+sentence-transformers
+streamlit
+pypdf
+ddgs
+langchain-experimental
+pandas
+matplotlib

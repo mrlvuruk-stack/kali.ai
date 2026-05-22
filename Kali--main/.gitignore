@@ -1,0 +1,23 @@
+# Python Virtual Environments
+venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Database and Vector Stores
+kali_data.db
+chroma_db/
+documents/
+
+# Generated Charts/Images
+chart.png
+*.png
+*.jpg
+
+# Local build artifacts
+build/
+dist/
+*.spec
