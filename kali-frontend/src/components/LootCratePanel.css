@@ -1,0 +1,237 @@
+.loot-crate-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.loot-header-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.back-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: rotate(0);
+}
+
+.back-btn:hover {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.panel-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* Input State */
+.input-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.doc-box-decor {
+  font-size: 3rem;
+  width: 80px; height: 80px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+}
+
+.input-state h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.input-state p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.input-state textarea {
+  width: 100%;
+  height: 140px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: none;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-state textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.input-state textarea:focus {
+  border-color: var(--kali-orange);
+}
+
+.generate-action-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--grad-loot);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.35);
+  transition: all 0.25s;
+}
+
+.generate-action-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(249, 115, 22, 0.45);
+}
+
+.generate-action-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.spin {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Docs State */
+.docs-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tabs-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.tab-selector-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.tab-selector-btn:hover {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.tab-selector-btn.active {
+  background: var(--tab-color);
+  color: white;
+  border-color: var(--tab-color);
+  box-shadow: 0 4px 12px var(--tab-color);
+}
+
+.doc-content-body {
+  flex: 1;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.doc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.doc-type-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+}
+
+.export-doc-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.export-doc-btn:hover {
+  background: var(--border-light);
+}
+
+.doc-text {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.03);
+}

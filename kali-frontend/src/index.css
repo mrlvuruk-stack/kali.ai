@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Base Colors */
+  --bg-primary: #0d0d12;
+  --bg-secondary: #13131a;
+  --bg-sidebar: #0f0f16;
+  --bg-card: #1a1a24;
+  --bg-input: #1e1e2a;
+  --border: #2a2a3a;
+  --border-light: #333345;
+
+  /* Text */
+  --text-primary: #f0f0f8;
+  --text-secondary: #9090a8;
+  --text-muted: #5a5a72;
+
+  /* Kali Brand Colors - Multi Color Palette */
+  --kali-purple: #8b5cf6;
+  --kali-violet: #7c3aed;
+  --kali-blue: #3b82f6;
+  --kali-cyan: #06b6d4;
+  --kali-green: #10b981;
+  --kali-yellow: #f59e0b;
+  --kali-orange: #f97316;
+  --kali-pink: #ec4899;
+  --kali-red: #ef4444;
+  --kali-indigo: #6366f1;
+
+  /* Gradients */
+  --grad-main: linear-gradient(135deg, #8b5cf6, #3b82f6, #06b6d4);
+  --grad-loot: linear-gradient(135deg, #f59e0b, #f97316, #ec4899);
+  --grad-prd: linear-gradient(135deg, #6366f1, #8b5cf6);
+  --grad-trd: linear-gradient(135deg, #10b981, #06b6d4);
+  --grad-drd: linear-gradient(135deg, #f59e0b, #f97316);
+  --grad-qa: linear-gradient(135deg, #ef4444, #ec4899);
+
+  /* Glow Effects */
+  --glow-purple: 0 0 20px rgba(139, 92, 246, 0.3);
+  --glow-blue: 0 0 20px rgba(59, 130, 246, 0.3);
+  --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
+
+  /* Sidebar Width */
+  --sidebar-width: 260px;
+  --header-height: 56px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--kali-purple); }
+
+/* Animated gradient background */
+.gradient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+  animation: floatOrb 8s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 600px; height: 600px;
+  background: var(--kali-purple);
+  top: -200px; left: -200px;
+  animation-delay: 0s;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: var(--kali-cyan);
+  bottom: -150px; right: -150px;
+  animation-delay: 3s;
+}
+.orb-3 {
+  width: 400px; height: 400px;
+  background: var(--kali-pink);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 6s;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -20px) scale(1.05); }
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(26, 26, 36, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+}
+
+/* Pulse dot animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Typing dots */
+@keyframes typingDot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Slide in animation */
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-in {
+  animation: slideInUp 0.3s ease forwards;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-loot {
+  background: var(--grad-loot);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button base */
+button {
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+button:active { transform: scale(0.97); }
+
+/* Input base */
+input, textarea {
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  border: none;
+}

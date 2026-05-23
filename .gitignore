@@ -21,3 +21,5 @@ __pycache__/
 # Local configuration
 local.properties
 .env
+kali-frontend/src/config.js
+

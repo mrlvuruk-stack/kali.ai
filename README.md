@@ -1,116 +1,186 @@
 # ✺ Kali AI (Kali.ai)
+> **The Ultimate Private Local AI Desktop Assistant & Conversational Loot Crate Architect**
 
 [![GitHub License](https://img.shields.io/github/license/mrlvuruk-stack/kali.ai?style=flat-square&color=blue)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue?style=flat-square&logo=python)](https://www.python.org/)
-[![Streamlit App](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=Streamlit&logoColor=white)](https://streamlit.io/)
-[![Android Comp](https://img.shields.io/badge/Android-Companion-3DDC84?style=flat-square&logo=android&logoColor=white)](./kali-android)
+[![React Version](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![Gemini Engine](https://img.shields.io/badge/Gemini-3.5%20Flash-4285F4?style=flat-square&logo=google&logoColor=white)](https://deepmind.google/technologies/gemini/)
+[![Ollama Integration](https://img.shields.io/badge/Ollama-Local-000000?style=flat-square&logo=cpu)](https://ollama.com/)
 
-Kali is a completely private, locally-hosted, agentic AI desktop assistant and Android companion. Unlike cloud-based LLM services, Kali runs 100% on your own hardware using Ollama. No data is ever sent to the cloud, and she can natively interact with your computer!
+Kali is a completely private, locally-hosted, agentic AI desktop assistant and Android companion. With **Version 2.0**, Kali introduces a stunning, glassmorphic **React Web UI** and the **Loot Crate (DocBFF)** system — a conversational AI product architect that designs full project blueprints (PRD + TRD + DRD + QA specs) just by chatting with you like a friend.
 
 ---
 
-## 📐 Architecture & Components
-
-The workspace is organized into four main layers:
+## 📐 Architecture & Components (Detailed Breakdown)
 
 ```mermaid
 graph TD
-    User([User]) <--> |Interacts| WebApp[Streamlit Web UI<br>Port 8501]
-    AndroidApp[Android Companion App<br>Jetpack Compose WebView] <--> |Connects via Local IP| WebApp
+    User([User]) <--> |Interacts| ReactApp[Vite React Frontend<br>Port 5173]
+    AndroidApp[Android Companion App<br>Jetpack Compose WebView] <--> |Connects| ReactApp
     
-    subgraph backend ["Python Backend (Streamlit App)"]
-        WebApp <--> Agent[ReAct Agent Executor]
-        WebApp <--> DB[(SQLite Memory Database)]
+    subgraph backend ["Kali Core Services"]
+        ReactApp <--> |Local API| Ollama[Ollama Local LLM<br>llama3.2 / mistral]
+        ReactApp <--> |Cloud API (Optional)| Gemini[Gemini 3.5 Flash API]
+        ReactApp <--> |Data Store| SQLite[(SQLite Database)]
         
-        Agent <--> Ollama[Ollama Local LLM]
-        Agent <--> Tools[Agent Tools]
-        
-        subgraph tools_sub ["Tools"]
-            WinApp[Native App Launcher]
-            PyInterpreter[Python Code Interpreter]
-            RAG[Chroma DB / PDF Document Reader]
-            Search[DuckDuckGo Web Search]
-        end
+        ReactApp <--> PyBackend[Streamlit Python Backend<br>Port 8501]
+        PyBackend <--> Agent[ReAct Agent Executor]
+        Agent <--> Tools[System Control Tools]
     end
 ```
 
-| Component | Path / File | Description |
-| :--- | :--- | :--- |
-| **Python Backend** | [Kali--main/](file:///c:/Users/MR%20LV/Downloads/Kali--main/Kali--main) | Streamlit web interface, SQLite database manager, and LangChain ReAct agent backend. |
-| **Android Wrapper** | [kali-android/](file:///c:/Users/MR%20LV/Downloads/Kali--main/kali-android) | Jetpack Compose WebView companion wrapper app. |
-| **Pre-built Release** | [Kali-AI.apk](file:///c:/Users/MR%20LV/Downloads/Kali--main/Kali-AI.apk) | Installer package for direct Android deployment. |
-| **CLI Installer** | [install.cmd](file:///c:/Users/MR%20LV/Downloads/Kali--main/install.cmd) | Automated script to install and configure the Google Android CLI developer tools locally. |
+### 1. 🎨 The Interactive Frontend Layer (`kali-frontend/`)
+Built with React, Vite, and glassmorphic Vanilla CSS. It provides a visual interface for managing AI sessions, projects, settings, and documents.
+
+*   **`src/App.jsx` (Main Shell Orchestrator)**:
+    Handles core state management for the active project, current conversation session, active panel view mode (`chat` vs. `lootcrate`), and coordinates sidebar open/closed status.
+*   **`src/components/Sidebar.jsx`**:
+    Displays active projects and sessions with dynamic HSL-generated color coding. Integrates mode selectors and live system status indicator badges (Ollama/Gemini state).
+*   **`src/components/Header.jsx`**:
+    Provides navigation paths, workspace indicators, sidebar toggle controllers, and active model tag badges.
+*   **`src/components/ChatArea.jsx`**:
+    Directs standard Hinglish dialog flow, watches for documentation triggers (auto-detection), appends visual notification nudges, and keeps conversation lists synchronised.
+*   **`src/components/LootCratePanel.jsx`**:
+    A specialized workspace to generate full documentation packages. Displays a progress loader (*Drafting*, *Polishing*, *Formatting*), houses PRD/TRD/DRD/QA document preview tabs, and mounts markdown file export downloads.
+*   **`src/components/ChatBubble.jsx`**:
+    Renders styled chat logs using gradient bubbles for the user, frosted cards for the AI, and mounts quick-action routing triggers inside system nudges.
+*   **`src/components/InputBar.jsx`**:
+    Houses the modern chat input bar, locking dynamically when the system is processing a request.
+*   **`src/components/WelcomeScreen.jsx`**:
+    Greets the user with a pulsing gradient logo and mounts clickable suggested project starter cards.
+*   **`src/services/geminiService.js`**:
+    Direct client-side connector to Google's Gemini API utilizing the custom Developer Key. Orchestrates model inputs and parses standard structured string dividers automatically.
+*   **`src/config.js`**:
+    Stores environment parameters like target models, API keys, and local server base ports.
 
 ---
 
-## ✨ Features
+### 2. 🧠 Local AI Model Orchestration (Ollama)
+Handles privacy-first offline interactions, quick drafts, and general assistant fallback routines.
 
-- **100% Local & Private:** Powered by Ollama. Fully functional offline.
-- **Persistent Context Memory:** Uses a structured SQLite database to organize chat histories into **Projects** and **Sessions** so you can pick up exactly where you left off.
-- **Python Code Interpreter:** Generates and runs Python code locally. When creating graphs or plots, it automatically saves them and renders the image directly in your chat interface.
-- **Native Windows App Launcher:** Open Windows apps directly. Ask *"Open OBS"* or *"Launch VS Code"*, and Kali will scan your Start Menu shortcuts to launch them.
-- **Local PDF Document Reader (RAG):** Ingest your documents using the LangChain and Chroma vector store setup, then query them locally.
-- **Web Search Integration:** Seamless fallback to DuckDuckGo search when you ask about real-time events.
-- **Companion App Wrapper:** Run the workspace on your Android device locally inside a native web view.
+*   **Local Host Port (`localhost:11434`)**:
+    Exposes Ollama's REST interface to local callers.
+*   **Target Core Models**:
+    *   `llama3.2` (Default local model): Optimal balance of memory usage and speed on consumer laptops.
+    *   `mistral`: Fallback choice for extended context sizes and structural JSON outputs.
+*   **Instant Draft Generation**:
+    Processes conversational summaries locally before formatting structures are forwarded.
+
+---
+
+### 3. ⚡ High-Performance Refiner Layer (Gemini)
+Performs advanced semantic engineering and builds deep documentation frameworks.
+
+*   **Google Gemini API (`v1beta` Endpoint)**:
+    Accesses Google's global models directly with sub-second execution speeds.
+*   **Primary Active Model (`gemini-3.5-flash`)**:
+    Leverages high-speed context compilation to polish raw local Ollama drafts into pristine, formatted technical files.
+*   **Secure API Bindings**:
+    Operates strictly via client-side fetch, ensuring keys are restricted to local machines.
+
+---
+
+### 4. 🐍 Python Core & Agent Execution Layer (`Kali--main/`)
+Operates as the desktop controller, code running environment, and RAG document processor.
+
+*   **`app.py` (Main Python Backend)**:
+    Coordinates Python service loops, launches local tool registries, routes categories (DOCS/WEB/CHAT) via a routing chain, and operates a LangChain ReAct executor.
+*   **`database.py` (Persistent Schema Manager)**:
+    Manages local SQLite database operations, establishing tables for:
+    *   `projects`: Groups workspace items.
+    *   `sessions`: Manages historical timelines.
+    *   `messages`: Logs persistent text history.
+    *   `artifacts`: References local charts, media, and images.
+    *   `settings`: Secure local store for LLM temperature and models.
+*   **`ingest.py` (Local Vector Store Processor)**:
+    Leverages `HuggingFaceEmbeddings` (`all-MiniLM-L6-v2`) to chunk, vectorize, and persist local PDF documents into a local `Chroma` database for instant semantic search.
+*   **`launcher.py` / `build.py` / `installer.iss`**:
+    Coordinates executable compilation, folder bindings, and native OS installers.
+
+---
+
+### 5. 🛠️ Agent PC Control Toolkit (LangChain & Classic Tools)
+Enables Kali to execute actions directly on the user's PC when requested.
+
+*   **Windows Application Auto-Launcher (`launch_windows_application`)**:
+    Scans the system's local Start Menu directories to locate and launch desktop applications (e.g. OBS, VS Code) on voice/text request.
+*   **Python REPL Execution Sandbox (`PythonREPLTool`)**:
+    Compiles and runs Python code locally. When data graphs or plots are requested, it outputs them as a local file (`chart.png`) and embeds them directly into the UI.
+*   **System Command Shell (`ShellTool`)**:
+    Gives the local AI ReAct executor authorization to run administrative commands safely within the OS shell environment.
+*   **Unified File Management (`FileManagementToolkit`)**:
+    Allows Kali to create, read, update, delete, and copy local project files.
+
+---
+
+### 6. 📱 Mobile Companion Layer (`kali-android/`)
+Extends desktop power straight to your mobile device.
+
+*   **Jetpack Compose WebView Engine**:
+    Provides a fast, hardware-accelerated wrapper to display the React workspace on mobile screens.
+*   **Host Auto-Resolution**:
+    Automatically maps requests to the computer's active local IP address, ensuring seamless sync on local Wi-Fi networks.
+*   **Pre-compiled Delivery (`Kali-AI.apk`)**:
+    Ready-to-install Android package for direct sideloading.
 
 ---
 
 ## 🚀 Getting Started
 
 ### 1. Prerequisites
-- **Python 3.8+** (with "Add to PATH" checked).
-- **Ollama** installed locally. Make sure you pull a model (e.g., `llama3` or `llama3.2`):
+- **Node.js** (v18+) & **Python 3.8+**
+- **Ollama** installed locally. Make sure you pull your desired model:
   ```bash
   ollama pull llama3.2
   ```
 
 ---
 
-### 2. Running the Desktop Application (Python Backend)
+### 2. Running the React Frontend
 
-1. Navigate to the Python backend directory:
+1. Navigate to the frontend directory:
+   ```bash
+   cd kali-frontend
+   ```
+2. Configure your keys:
+   - Rename `src/config.example.js` to `src/config.js`.
+   - Add your Gemini API key:
+     ```javascript
+     export const GEMINI_API_KEY = "AIzaSy...";
+     ```
+3. Install packages and start Vite dev server:
+   ```bash
+   npm install
+   npm run dev
+   ```
+4. Open [http://localhost:5173/](http://localhost:5173/) in your browser.
+
+---
+
+### 3. Running the Python Backend Agent
+
+1. Navigate to the backend directory:
    ```bash
    cd Kali--main
    ```
-2. Install the dependencies:
+2. Install Python dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-3. Initialize the vector store database (if you plan to use Document Reader):
+3. Initialize the vector store (if using Document Reader):
    ```bash
    python ingest.py
    ```
-4. Run the Streamlit application:
+4. Start the Streamlit application:
    ```bash
    python -m streamlit run app.py
    ```
-5. A browser window will automatically open at `http://localhost:8501`.
 
 ---
 
-### 3. Setting Up the Android Companion App
-
-The Android app is a custom Jetpack Compose application designed to wrap the Streamlit web app in a WebView.
-
-#### Option A: Install Pre-built APK
-Copy the [Kali-AI.apk](file:///c:/Users/MR%20LV/Downloads/Kali--main/Kali-AI.apk) to your Android device and install it directly.
-
-#### Option B: Build and Customize the App
-1. Open the [kali-android/](file:///c:/Users/MR%20LV/Downloads/Kali--main/kali-android) directory in Android Studio.
-2. In [MainActivity.kt](file:///c:/Users/MR%20LV/Downloads/Kali--main/kali-android/app/src/main/java/com/example/kaliai/MainActivity.kt#L40), update the URL to your computer's local IP address (instead of `http://10.125.137.179:8501`):
-   ```kotlin
-   loadUrl("http://<YOUR_LOCAL_IP>:8501")
-   ```
-3. Run the project in Android Studio or compile it to a new APK.
-
-#### Developer CLI Environment Setup
-Run the [install.cmd](file:///c:/Users/MR%20LV/Downloads/Kali--main/install.cmd) script in your terminal to automatically download, install, and add Google's developer `android` CLI tool to your system's path variables.
+## 🛡️ Security & Privacy
+- **Direct Client-to-API Calls**: Your Gemini API key is stored locally in `src/config.js` (which is in `.gitignore`) and is never sent to any external server.
+- **Local SQLite Storage**: Your chat history, session records, and generated documents are saved on your own machine.
 
 ---
-
-## 🛠️ Configuration & Settings
-
-Inside the Streamlit workspace, click on the **⚙️ Settings** expander in the sidebar to configure:
-- **LLM Model**: Define which Ollama model you want Kali to use (defaults to `llama3.2`).
-- **Temperature**: Control LLM creativity (defaults to `0.2`).
-- **Code Interpreter Mode**: Toggle the computer-controlling ReAct agent execution model.
+*Created with love by mrlv. Build beautifully, ship securely.* 🚀
