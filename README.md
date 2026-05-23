@@ -149,18 +149,12 @@ Extends desktop power straight to your mobile device.
    ```bash
    cd kali-frontend
    ```
-2. Configure your keys:
-   - Rename `src/config.example.js` to `src/config.js`.
-   - Add your Gemini API key:
-     ```javascript
-     export const GEMINI_API_KEY = "AIzaSy...";
-     ```
-3. Install packages and start Vite dev server:
+2. Install packages and start Vite dev server:
    ```bash
    npm install
    npm run dev
    ```
-4. Open [http://localhost:5173/](http://localhost:5173/) in your browser.
+3. Open [http://localhost:5173/](http://localhost:5173/) in your browser.
 
 ---
 
@@ -186,7 +180,6 @@ Extends desktop power straight to your mobile device.
 ---
 
 ## 🛡️ Security & Privacy
-- **Direct Client-to-API Calls**: Your Gemini API key is stored locally in `src/config.js` (which is in `.gitignore`) and is never sent to any external server.
 - **Local SQLite Storage**: Your chat history, session records, and generated documents are saved on your own machine.
 
 ---
