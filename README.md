@@ -15,17 +15,24 @@ Kali is a completely private, locally-hosted, agentic AI desktop assistant and A
 
 ```mermaid
 graph TD
-    User([User]) <--> |Interacts| ReactApp[Vite React Frontend<br>Port 5173]
+    User([User]) <--> |Interacts| ReactApp
     AndroidApp[Android Companion App<br>Jetpack Compose WebView] <--> |Connects| ReactApp
-    
-    subgraph backend ["Kali Core Services"]
-        ReactApp <--> |Local API| Ollama[Ollama Local LLM<br>llama3.2 / mistral]
-        ReactApp <--> |Cloud API Optional| Gemini[Gemini 3.5 Flash API]
-        ReactApp <--> |Data Store| SQLite[("SQLite Database")]
-        
-        ReactApp <--> PyBackend[Streamlit Python Backend<br>Port 8501]
-        PyBackend <--> Agent[ReAct Agent Executor]
-        Agent <--> Tools[System Control Tools]
+
+    subgraph Core ["Kali Core Services"]
+        ReactApp[Vite React Frontend<br>Port 5173]
+        PyBackend[Streamlit Python Backend<br>Port 8501]
+        Ollama[Ollama Local LLM<br>llama3.2 / mistral]
+        Gemini[Gemini 3.5 Flash API]
+        SQLite[("SQLite Database")]
+        Agent[ReAct Agent Executor]
+        Tools[System Control Tools]
+
+        ReactApp <--> |Local API| Ollama
+        ReactApp <--> |Cloud API Optional| Gemini
+        ReactApp <--> |Data Store| SQLite
+        ReactApp <--> PyBackend
+        PyBackend <--> Agent
+        Agent <--> Tools
     end
 ```
 
