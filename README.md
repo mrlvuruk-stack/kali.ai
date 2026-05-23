@@ -20,8 +20,8 @@ graph TD
     
     subgraph backend ["Kali Core Services"]
         ReactApp <--> |Local API| Ollama[Ollama Local LLM<br>llama3.2 / mistral]
-        ReactApp <--> |Cloud API (Optional)| Gemini[Gemini 3.5 Flash API]
-        ReactApp <--> |Data Store| SQLite[(SQLite Database)]
+        ReactApp <--> |Cloud API Optional| Gemini[Gemini 3.5 Flash API]
+        ReactApp <--> |Data Store| SQLite[("SQLite Database")]
         
         ReactApp <--> PyBackend[Streamlit Python Backend<br>Port 8501]
         PyBackend <--> Agent[ReAct Agent Executor]
